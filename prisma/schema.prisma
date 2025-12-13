@@ -1,0 +1,76 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model User {
+  id            String   @id @default(cuid())
+  username      String   @unique
+  password      String
+  balance       BigInt   @default(1000000) // 初始100万金币
+  isAdmin       Boolean  @default(false)
+  lastCheckIn   DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  bets          Bet[]
+  projects      Project[] @relation("ProjectCreator")
+}
+
+model Project {
+  id            String   @id @default(cuid())
+  title         String
+  description   String?
+  creatorId     String
+  creator       User     @relation("ProjectCreator", fields: [creatorId], references: [id])
+  status        String   @default("open") // open, closed, settled
+  calculationType String @default("proportional") // 计算类型：proportional(按比例分配), 其他待扩展
+  totalPool     BigInt   @default(0) // 总奖池
+  correctOptionId String? // 正确答案的选项ID
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  options       Option[]
+  bets          Bet[]
+
+  @@index([status])
+  @@index([creatorId])
+}
+
+model Option {
+  id            String   @id @default(cuid())
+  projectId     String
+  project       Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  name          String
+  totalAmount   BigInt   @default(0) // 该选项的总押注金额
+  createdAt     DateTime @default(now())
+
+  bets          Bet[]
+
+  @@index([projectId])
+}
+
+model Bet {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  projectId     String
+  project       Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  optionId      String
+  option        Option   @relation(fields: [optionId], references: [id], onDelete: Cascade)
+  amount        BigInt   // 押注金额
+  reward        BigInt?  // 奖励金额（结算后）
+  createdAt     DateTime @default(now())
+
+  @@index([userId])
+  @@index([projectId])
+  @@index([optionId])
+}
