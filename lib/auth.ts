@@ -4,19 +4,30 @@ import { cookies } from 'next/headers'
 const secretKey = process.env.JWT_SECRET || 'your-secret-key-change-in-production'
 const key = new TextEncoder().encode(secretKey)
 
-export async function encrypt(payload: any) {
-  return await new SignJWT(payload)
+interface SessionPayload {
+  userId: string
+  username: string
+  isAdmin: boolean
+  expires: Date
+}
+
+export async function encrypt(payload: SessionPayload) {
+  return await new SignJWT(payload as unknown as Record<string, unknown>)
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
     .setExpirationTime('7d')
     .sign(key)
 }
 
-export async function decrypt(input: string): Promise<any> {
-  const { payload } = await jwtVerify(input, key, {
-    algorithms: ['HS256'],
-  })
-  return payload
+export async function decrypt(input: string): Promise<SessionPayload | null> {
+  try {
+    const { payload } = await jwtVerify(input, key, {
+      algorithms: ['HS256'],
+    })
+    return payload as unknown as SessionPayload
+  } catch {
+    return null
+  }
 }
 
 export async function getSession() {

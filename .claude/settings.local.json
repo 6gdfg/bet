@@ -3,7 +3,9 @@
     "allow": [
       "Bash(npx create-next-app:*)",
       "Bash(npm install)",
-      "Bash(npx prisma generate:*)"
+      "Bash(npx prisma generate:*)",
+      "Bash(cat:*)",
+      "Bash(npm run build:*)"
     ]
   }
 }

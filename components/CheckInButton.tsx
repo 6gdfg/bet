@@ -8,7 +8,7 @@ interface CheckInButtonProps {
   lastCheckIn: Date | null
 }
 
-export default function CheckInButton({ userId, lastCheckIn }: CheckInButtonProps) {
+export default function CheckInButton({ lastCheckIn }: CheckInButtonProps) {
   const [isCheckedIn, setIsCheckedIn] = useState(() => {
     if (!lastCheckIn) return false
     const today = new Date().setHours(0, 0, 0, 0)

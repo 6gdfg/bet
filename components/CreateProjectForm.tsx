@@ -4,11 +4,8 @@ import { useState } from 'react'
 import { createProject } from '@/app/actions/project'
 import { useRouter } from 'next/navigation'
 
-interface CreateProjectFormProps {
-  userId: string
-}
 
-export default function CreateProjectForm({ userId }: CreateProjectFormProps) {
+export default function CreateProjectForm() {
   const router = useRouter()
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
