@@ -13,7 +13,7 @@ export default async function Home() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
       <div className="bg-white p-8 rounded-lg shadow-xl max-w-md w-full">
         <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
-          班级押分系统
+          Who is the champion?
         </h1>
 
         <div className="space-y-4">
@@ -33,7 +33,7 @@ export default async function Home() {
         </div>
 
         <div className="mt-6 text-center text-sm text-gray-600">
-          <p>新用户注册即送100万金币</p>
+          <p>仅供娱乐 新用户注册即送100万金币</p>
         </div>
       </div>
     </div>

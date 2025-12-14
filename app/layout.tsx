@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "班级押分系统",
+  title: "Guess",
   description: "班级娱乐押分平台",
 };
 

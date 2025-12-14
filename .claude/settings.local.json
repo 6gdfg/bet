@@ -5,7 +5,10 @@
       "Bash(npm install)",
       "Bash(npx prisma generate:*)",
       "Bash(cat:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(vercel env pull:*)",
+      "Bash(vercel link:*)",
+      "Bash(npx prisma db push)"
     ]
   }
 }
